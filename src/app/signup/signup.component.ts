@@ -6,11 +6,12 @@ import { SignupCredentials } from '../model/SignupCredentials';
 import { AuthApiService } from '../auth-api.service';
 import { HttpClient } from '@angular/common/http';
 import { UserProfile } from '../model/UserProfile';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,HeaderComponent ],
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })

@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthApiService } from '../auth-api.service';
 import { LoginCredentials } from '../model/LoginCredentials';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -43,7 +44,7 @@ export class LoginComponent {
         response=>{
           console.log(response);
           sessionStorage.setItem('finance.auth',response.jwtToken)
-          this.router.navigate(['user'])
+          this.router.navigate(['dashboard'])
         },
         error=>{
           console.error('Login Failed', error);
