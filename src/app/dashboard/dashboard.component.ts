@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IncomeComponent } from '../income/income.component';
+import { ExpensesComponent } from '../expenses/expenses.component';
+import { BudgetsComponent } from '../budgets/budgets.component';
+import { GoalsComponent } from '../goals/goals.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +12,10 @@ import { IncomeComponent } from '../income/income.component';
   standalone: true,
   imports: [
     CommonModule,
-    IncomeComponent
+    IncomeComponent,
+    ExpensesComponent,
+    BudgetsComponent,
+    GoalsComponent
   ]
 })
 export class DashboardComponent {

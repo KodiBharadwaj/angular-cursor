@@ -1,9 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 interface IncomeSource {
   id: number;
+  source: string;
+  amount: number;
+  date: string;
+  category: string;
+  recurring: boolean;
+}
+
+interface AddIncomeDialogResult {
   source: string;
   amount: number;
   date: string;
@@ -16,18 +25,21 @@ interface IncomeSource {
   templateUrl: './income.component.html',
   styleUrls: ['./income.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, MatDialogModule]
 })
 export class IncomeComponent {
   totalIncome: number = 0;
   incomeSources: IncomeSource[] = [];
   loading: boolean = false;
 
-  constructor(public httpClient:HttpClient){}
+  constructor(
+    public httpClient: HttpClient,
+    private dialog: MatDialog
+  ) {}
 
   baseUrl = "http://localhost:8100";
+  
   ngOnInit() {
-    // Simulate API call
     this.loadIncomeData();
   }
 
@@ -36,15 +48,14 @@ export class IncomeComponent {
 
     this.httpClient.get<IncomeSource[]>(`${this.baseUrl}/api/income/1`).subscribe({
       next: (data) => {
-        this.incomeSources = data; // Assign the data to your incomeSources array
-        this.calculateTotalIncome(); // Recalculate the total income after data is loaded
+        this.incomeSources = data;
+        this.calculateTotalIncome();
       },
       error: (error) => {
         console.error('Failed to load income data:', error);
-        // Optionally handle the error here
       },
       complete: () => {
-        this.loading = false; // Stop the loading indicator
+        this.loading = false;
       }
     });
   }
@@ -54,7 +65,6 @@ export class IncomeComponent {
   }
 
   addIncome() {
-    this.httpClient.post
-    console.log('Add income clicked');
+    
   }
 }
