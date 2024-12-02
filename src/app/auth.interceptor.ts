@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  alert("Intercepted")
+  // alert("Intercepted")
   if (req.url.includes('/register')) {
     return next(req); // Proceed without modifying the request
   }

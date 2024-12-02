@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 interface IncomeSource {
   id: number;
@@ -22,6 +23,9 @@ export class IncomeComponent {
   incomeSources: IncomeSource[] = [];
   loading: boolean = false;
 
+  constructor(public httpClient:HttpClient){}
+
+  baseUrl = "http://localhost:8100";
   ngOnInit() {
     // Simulate API call
     this.loadIncomeData();
@@ -29,14 +33,20 @@ export class IncomeComponent {
 
   loadIncomeData() {
     this.loading = true;
-    // Simulated data - replace with actual API call
-    this.incomeSources = [
-      { id: 1, source: 'Salary', amount: 5000, date: '2024-03-01', category: 'Employment', recurring: true },
-      { id: 2, source: 'Freelance', amount: 1200, date: '2024-03-15', category: 'Self-employed', recurring: false },
-      { id: 3, source: 'Investments', amount: 500, date: '2024-03-20', category: 'Passive', recurring: true },
-    ];
-    this.calculateTotalIncome();
-    this.loading = false;
+
+    this.httpClient.get<IncomeSource[]>(`${this.baseUrl}/api/income/1`).subscribe({
+      next: (data) => {
+        this.incomeSources = data; // Assign the data to your incomeSources array
+        this.calculateTotalIncome(); // Recalculate the total income after data is loaded
+      },
+      error: (error) => {
+        console.error('Failed to load income data:', error);
+        // Optionally handle the error here
+      },
+      complete: () => {
+        this.loading = false; // Stop the loading indicator
+      }
+    });
   }
 
   calculateTotalIncome() {
@@ -44,7 +54,7 @@ export class IncomeComponent {
   }
 
   addIncome() {
-    // Implement add income logic
+    this.httpClient.post
     console.log('Add income clicked');
   }
 }
