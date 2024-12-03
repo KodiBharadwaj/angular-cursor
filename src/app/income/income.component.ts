@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { AddIncomeDialogComponent } from '../add-income-dialog/add-income-dialog.component';
 
 interface IncomeSource {
   id: number;
-  source: string;
-  amount: number;
-  date: string;
-  category: string;
-  recurring: boolean;
-}
-
-interface AddIncomeDialogResult {
   source: string;
   amount: number;
   date: string;
@@ -25,7 +21,14 @@ interface AddIncomeDialogResult {
   templateUrl: './income.component.html',
   styleUrls: ['./income.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatDialogModule]
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    FormsModule,
+    MatInputModule,
+    AddIncomeDialogComponent
+  ]
 })
 export class IncomeComponent {
   totalIncome: number = 0;
@@ -65,6 +68,16 @@ export class IncomeComponent {
   }
 
   addIncome() {
-    
+    const dialogRef = this.dialog.open(AddIncomeDialogComponent, {
+      width: '500px',
+      panelClass: 'income-dialog'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.incomeSources.push(result);
+        this.calculateTotalIncome();
+      }
+    });
   }
 }
